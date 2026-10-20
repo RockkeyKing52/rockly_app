@@ -359,17 +359,16 @@
             <p style="margin-bottom: 0;">Davet Kodu: <span class="code-badge" id="serverCodeDisplay">-</span></p>
         </div>
 
+        <h1>Sohbet Et, Konuş, Eğlen</h1>
+        <p>Sınırları kaldıran, yepyeni bir sosyal alan. Rockly ile arkadaşlarınızla veya topluluklarınızla kesintisiz, hızlı ve güvenli bir şekilde iletişim kurun.</p>
+
         <!-- Buton Grubu -->
         <div class="btn-group">
             <!-- Uygulamayı Aç Butonu (Sadece Davet Linklerinde Görünür) -->
             <a id="openAppBtn" href="#" class="open-app-btn">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-               Sunucuyu Uygulamada Aç
+                Sunucuyu Uygulamada Aç
             </a>
-
-
-        <h1>Sohbet Et, Konuş, Eğlen</h1>
-        <p>Sınırları kaldıran, yepyeni bir sosyal alan. Rockly ile arkadaşlarınızla veya topluluklarınızla kesintisiz, hızlı ve güvenli bir şekilde iletişim kurun.</p>
 
             <!-- İndirme Butonu -->
             <a href="https://github.com/RockkeyKing52/rockly_app/releases/download/v1.0/rockly.apk" class="download-btn">
@@ -455,16 +454,19 @@
                 // UI Güncellemeleri
                 document.getElementById('inviteCard').style.display = 'block';
                 document.getElementById('serverCodeDisplay').textContent = code;
-                
+
                 const openAppBtn = document.getElementById('openAppBtn');
-                const appSchemeUrl = `rockly://join/${code}`;
-                
-                openAppBtn.href = appSchemeUrl;
+                const appPackageName = "com.rockly"; // build.gradle dosyanızdaki paket adı
+
+                // Android Chrome engeline takılmayan resmi Intent URL formatı
+                const appIntentUrl = `intent://join/${code}#Intent;scheme=rockly;package=${appPackageName};end;`;
+
+                openAppBtn.href = appIntentUrl;
                 openAppBtn.style.display = 'inline-flex';
 
                 // Otomatik olarak uygulamayı açmayı dene
                 setTimeout(() => {
-                    window.location.href = appSchemeUrl;
+                    window.location.href = appIntentUrl;
                 }, 500);
             }
         });
