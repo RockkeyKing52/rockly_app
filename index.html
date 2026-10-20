@@ -128,27 +128,71 @@
             padding: 0 10px;
         }
 
-        /* İndirme Butonu */
-        .download-btn { 
+        /* Sunucu Davet Kartı (Linkten Tıklanınca Açılır) */
+        .invite-card {
+            display: none;
+            background: var(--inner-box);
+            border: 2px solid var(--neon-accent);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px var(--shadow-color);
+        }
+
+        .invite-card h2 {
+            margin: 0 0 10px 0;
+            color: var(--neon-accent);
+            font-size: 22px;
+        }
+
+        .code-badge {
+            background: rgba(212, 98, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 18px;
+            color: var(--text-main);
+            border: 1px dashed var(--neon-accent);
+        }
+
+        /* İndirme & Aç Butonları */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .download-btn, .open-app-btn { 
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             background: var(--btn-gradient);
             color: #ffffff; 
-            padding: 18px 42px; 
+            padding: 16px 36px; 
             text-decoration: none; 
-            font-size: 18px; 
+            font-size: 17px; 
             border-radius: 50px; 
             transition: all 0.3s ease; 
             font-weight: bold; 
             border: none;
             box-shadow: 0 10px 25px rgba(155, 39, 223, 0.4);
-            animation: pulse 2.5s infinite;
-            margin-bottom: 10px;
+            width: 100%;
+            max-width: 360px;
         }
 
-        .download-btn:hover { 
+        .download-btn {
+            animation: pulse 2.5s infinite;
+        }
+
+        .open-app-btn {
+            background: #10b981;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            display: none; /* JS ile link varsa gösterilecek */
+        }
+
+        .download-btn:hover, .open-app-btn:hover { 
             transform: translateY(-3px) scale(1.03);
             box-shadow: 0 15px 30px var(--shadow-color);
             animation: none;
@@ -310,14 +354,30 @@
         <!-- Sürüm Rozeti -->
         <div class="badge">SÜRÜM v1.0</div>
 
+        <!-- Sunucu Davet Alanı (Sadece linkle gelindiyse görünür) -->
+        <div class="invite-card" id="inviteCard">
+            <h2>🎉 Sunucu Daveti!</h2>
+            <p>Seni Rockly üzerinde bir sunucuya davet ettiler.</p>
+            <p style="margin-bottom: 0;">Davet Kodu: <span class="code-badge" id="serverCodeDisplay">-</span></p>
+        </div>
+
         <h1>Sohbet Et, Konuş, Eğlen</h1>
         <p>Sınırları kaldıran, yepyeni bir sosyal alan. Rockly ile arkadaşlarınızla veya topluluklarınızla kesintisiz, hızlı ve güvenli bir şekilde iletişim kurun.</p>
 
-        <!-- İndirme Butonu -->
-        <a href="https://github.com/RockkeyKing52/rockly_app/releases/download/v1.0/rockly.apk" class="download-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0004.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.4158.4158 0 0 0-.1521-.5676.4162.4162 0 0 0-.5676.1521l-2.0221 3.503C15.549 8.2435 13.821 7.8427 12 7.8427c-1.821 0-3.549.4008-5.1371 1.1077L4.8408 5.4475a.4162.4162 0 0 0-.5676-.1521.4158.4158 0 0 0-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"></path></svg>
-            Android İçin Rockly İndir
-        </a>
+        <!-- Buton Grubu -->
+        <div class="btn-group">
+            <!-- Uygulamayı Aç Butonu (Sadece Davet Linklerinde Görünür) -->
+            <a id="openAppBtn" href="#" class="open-app-btn">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                Uygulamada Aç
+            </a>
+
+            <!-- İndirme Butonu -->
+            <a href="https://github.com/RockkeyKing52/rockly_app/releases/download/v1.0/rockly.apk" class="download-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0004.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.4158.4158 0 0 0-.1521-.5676.4162.4162 0 0 0-.5676.1521l-2.0221 3.503C15.549 8.2435 13.821 7.8427 12 7.8427c-1.821 0-3.549.4008-5.1371 1.1077L4.8408 5.4475a.4162.4162 0 0 0-.5676-.1521.4158.4158 0 0 0-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"></path></svg>
+                Android İçin Rockly İndir
+            </a>
+        </div>
 
         <!-- Kurulum Notu -->
         <p class="note"><b>Kurulum Notu:</b> Uygulamayı yükleyebilmek için telefon ayarlarından <i>"Bilinmeyen kaynaklardan yüklemeye izin ver"</i> seçeneğini aktif etmeniz gerekebilir.</p>
@@ -368,8 +428,9 @@
         </div>
     </div>
 
-    <!-- Tema Değiştirme Scripti -->
+    <!-- Scriptler -->
     <script>
+        // Koyu / Açık Tema Mantığı
         function toggleTheme() {
             const body = document.body;
             const themeBtnText = document.getElementById('themeText');
@@ -385,6 +446,29 @@
                 themeBtnText.textContent = 'Açık Mod';
             }
         }
+
+        // Deep Linking & Davet Kodu Mantığı
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+
+            if (code) {
+                // UI Güncellemeleri
+                document.getElementById('inviteCard').style.display = 'block';
+                document.getElementById('serverCodeDisplay').textContent = code;
+                
+                const openAppBtn = document.getElementById('openAppBtn');
+                const appSchemeUrl = `rockly://join/${code}`;
+                
+                openAppBtn.href = appSchemeUrl;
+                openAppBtn.style.display = 'inline-flex';
+
+                // Otomatik olarak uygulamayı açmayı dene
+                setTimeout(() => {
+                    window.location.href = appSchemeUrl;
+                }, 500);
+            }
+        });
     </script>
 </body>
 </html>
