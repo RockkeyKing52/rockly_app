@@ -3,65 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rockly - Sohbet Et, Konuş, Eğlen</title>
+    <title>Rockly - Sohbet Et, Topluluklara Katıl, Eğlen</title>
     <style>
-        /* Modern ve Animasyonlu Tasarım */
-        * { box-sizing: border-box; }
-        
+        :root {
+            --bg-gradient: radial-gradient(circle at top, #2a0a4a 0%, #050505 80%);
+            --card-bg: rgba(15, 15, 20, 0.65);
+            --card-border: rgba(212, 98, 255, 0.25);
+            --text-main: #ffffff;
+            --text-sub: #b3b3b3;
+            --neon-accent: #d462ff;
+            --btn-gradient: linear-gradient(45deg, #9b27df, #d462ff);
+            --shadow-color: rgba(212, 98, 255, 0.2);
+            --inner-box: rgba(0, 0, 0, 0.4);
+        }
+
+        body.light-mode {
+            --bg-gradient: radial-gradient(circle at top, #f3e8ff 0%, #e9d5ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(155, 39, 223, 0.3);
+            --text-main: #1e112a;
+            --text-sub: #4b385c;
+            --neon-accent: #8b00e6;
+            --btn-gradient: linear-gradient(45deg, #7c3aed, #a855f7);
+            --shadow-color: rgba(124, 58, 237, 0.15);
+            --inner-box: rgba(255, 255, 255, 0.6);
+        }
+
+        * { box-sizing: border-box; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             text-align: center; 
-            /* Arka plan için harika bir mor-siyah gradient */
-            background: radial-gradient(circle at top, #2a0a4a 0%, #050505 80%);
+            background: var(--bg-gradient);
             background-attachment: fixed;
-            color: #ffffff; 
+            color: var(--text-main); 
             margin: 0; 
             padding: 0;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Cam (Glassmorphism) Efektli Kutu */
-        .container { 
-            max-width: 550px; 
-            width: 90%;
-            margin: 40px auto; 
-            background: rgba(15, 15, 20, 0.6); 
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 50px 30px; 
-            border-radius: 28px; 
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 98, 255, 0.15); 
-            border: 1px solid rgba(212, 98, 255, 0.2); 
-            animation: fadeIn 1s ease-out;
         }
 
-        /* Yatay/Kapsül Logoya Uygun Şekilde Güncellendi */
+        /* Sağ Üst Sabit Tema Butonu */
+        .theme-toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-toggle-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 10px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .container { 
+            max-width: 750px; 
+            width: 90%;
+            margin: 60px auto 40px auto; 
+            background: var(--card-bg); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 45px 30px; 
+            border-radius: 28px; 
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px var(--shadow-color); 
+            border: 1px solid var(--card-border); 
+            animation: fadeIn 0.8s ease-out;
+        }
+
         .app-icon {
             width: 100%;
-            max-width: 240px;
+            max-width: 220px;
             height: auto;
             border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 35px rgba(212, 98, 255, 0.4);
+            margin-bottom: 15px;
+            box-shadow: 0 0 30px var(--shadow-color);
             animation: float 3.5s ease-in-out infinite;
             object-fit: contain;
         }
-        
+
         .app-logo {
-            max-width: 220px;
+            max-width: 200px;
             margin-bottom: 15px;
         }
 
-        /* Versiyon Rozeti */
         .badge {
             display: inline-block;
             background: rgba(212, 98, 255, 0.15);
-            border: 1px solid rgba(212, 98, 255, 0.4);
-            color: #e59cff;
-            padding: 6px 14px;
+            border: 1px solid var(--neon-accent);
+            color: var(--neon-accent);
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 700;
@@ -69,54 +114,168 @@
             margin-bottom: 20px;
         }
 
+        h1 {
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
         p { 
-            color: #b3b3b3; 
+            color: var(--text-sub); 
             line-height: 1.7; 
             font-size: 16px; 
-            margin-bottom: 35px; 
+            margin-bottom: 25px; 
             padding: 0 10px;
         }
 
-        /* Göz Alıcı Gradient İndirme Butonu */
+        /* İndirme Butonu */
         .download-btn { 
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            background: linear-gradient(45deg, #9b27df, #d462ff);
+            background: var(--btn-gradient);
             color: #ffffff; 
-            padding: 16px 40px; 
+            padding: 18px 42px; 
             text-decoration: none; 
             font-size: 18px; 
             border-radius: 50px; 
             transition: all 0.3s ease; 
             font-weight: bold; 
             border: none;
-            box-shadow: 0 10px 20px rgba(155, 39, 223, 0.4);
-            animation: pulse 2s infinite;
+            box-shadow: 0 10px 25px rgba(155, 39, 223, 0.4);
+            animation: pulse 2.5s infinite;
+            margin-bottom: 10px;
         }
-        
+
         .download-btn:hover { 
             transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 15px 25px rgba(212, 98, 255, 0.6);
-            animation: none; /* Üzerine gelince parlama animasyonu dursun */
+            box-shadow: 0 15px 30px var(--shadow-color);
+            animation: none;
         }
 
         .note { 
             font-size: 13px; 
-            color: #999; 
-            margin-top: 40px; 
+            color: var(--text-sub); 
+            margin-top: 25px; 
             padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--inner-box);
             border-radius: 12px;
-            border-left: 4px solid #9b27df;
+            border-left: 4px solid var(--neon-accent);
             text-align: left;
         }
 
-        /* Keyframe Animasyonları */
+        /* Tanıtım ve Özellikler Izgarası */
+        .features-section {
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .section-title {
+            font-size: 22px;
+            color: var(--neon-accent);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--inner-box);
+            padding: 22px;
+            border-radius: 18px;
+            border: 1px solid var(--card-border);
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+            color: var(--text-main);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-card p {
+            padding: 0;
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        /* İnteraktif Arayüz Önizleme Görseli (CSS Mockup) */
+        .mockup-card {
+            margin-top: 35px;
+            background: var(--inner-box);
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid var(--card-border);
+            text-align: left;
+        }
+
+        .chat-bubble {
+            background: rgba(212, 98, 255, 0.15);
+            border: 1px solid var(--card-border);
+            padding: 12px 16px;
+            border-radius: 15px 15px 15px 0px;
+            margin-bottom: 12px;
+            max-width: 85%;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .chat-bubble.reply {
+            background: var(--btn-gradient);
+            color: #fff;
+            border-radius: 15px 15px 0px 15px;
+            margin-left: auto;
+        }
+
+        /* Alt Bilgi & Yasal Ekran */
+        .footer-legal {
+            margin-top: 45px;
+            padding-top: 30px;
+            border-top: 1px solid var(--card-border);
+            text-align: left;
+        }
+
+        .legal-title {
+            font-size: 18px;
+            color: var(--neon-accent);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .legal-text {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .contact-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--inner-box);
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .contact-box a {
+            color: var(--neon-accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
 
@@ -134,33 +293,98 @@
 </head>
 <body>
 
+    <!-- Sağ Üst Koyu / Açık Tema Değiştirme Butonu -->
+    <div class="theme-toggle-container">
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
+            <span id="themeIcon">🌙</span> <span id="themeText">Açık Mod</span>
+        </button>
+    </div>
+
     <div class="container">
-        <!-- Havada süzülen uygulama simgesi / yatay logo -->
+        <!-- Simge & Logo -->
         <img src="1000087159.png" alt="Rockly Simge" class="app-icon">
-        
+        <br>
+        <img src="1000086775.png" alt="Rockly Logo" class="app-logo">
         <br>
 
-        <!-- Uygulama Logosu -->
-        <img src="1000086775.png" alt="Rockly Logo" class="app-logo">
-        
-        <br>
-        
         <!-- Sürüm Rozeti -->
         <div class="badge">SÜRÜM v1.0</div>
 
-        <!-- Açıklama -->
-        <p>Sınırları kaldıran, yepyeni bir sohbet deneyimi. Rockly ile arkadaşlarınızla kesintisiz, hızlı ve güvenli bir şekilde iletişim kurun.</p>
+        <h1>Sohbet Et, Konuş, Eğlen</h1>
+        <p>Sınırları kaldıran, yepyeni bir sosyal alan. Rockly ile arkadaşlarınızla veya topluluklarınızla kesintisiz, hızlı ve güvenli bir şekilde iletişim kurun.</p>
 
         <!-- İndirme Butonu -->
         <a href="https://github.com/RockkeyKing52/rockly_app/releases/download/v1.0/rockly.apk" class="download-btn">
-            <!-- Android ikonu eklendi -->
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0004.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.4158.4158 0 0 0-.1521-.5676.4162.4162 0 0 0-.5676.1521l-2.0221 3.503C15.549 8.2435 13.821 7.8427 12 7.8427c-1.821 0-3.549.4008-5.1371 1.1077L4.8408 5.4475a.4162.4162 0 0 0-.5676-.1521.4158.4158 0 0 0-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"></path></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0004.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.4158.4158 0 0 0-.1521-.5676.4162.4162 0 0 0-.5676.1521l-2.0221 3.503C15.549 8.2435 13.821 7.8427 12 7.8427c-1.821 0-3.549.4008-5.1371 1.1077L4.8408 5.4475a.4162.4162 0 0 0-.5676-.1521.4158.4158 0 0 0-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"></path></svg>
             Android İçin Rockly İndir
         </a>
 
         <!-- Kurulum Notu -->
-        <p class="note"><b>Kurulum Notu:</b> Uygulamayı yükleyebilmek için telefon ayarlarından <i>"Bilinmeyen kaynaklardan yüklemeye izin ver"</i> seçeneğini aktif etmeniz gerekir. Daha önce bu ayarı açtıysanız buna gerek yoktur.</p>
+        <p class="note"><b>Kurulum Notu:</b> Uygulamayı yükleyebilmek için telefon ayarlarından <i>"Bilinmeyen kaynaklardan yüklemeye izin ver"</i> seçeneğini aktif etmeniz gerekebilir.</p>
+
+        <!-- Arayüz Önizleme Simülasyonu -->
+        <div class="mockup-card">
+            <div style="font-size: 12px; color: var(--neon-accent); margin-bottom: 12px; font-weight: bold;">💬 ANLIK CANLI SOHBET ÖNİZLEMESİ</div>
+            <div class="chat-bubble">Rockly sunucusuna hoş geldin! Sohbet Odaları yayında 🎉</div>
+            <div class="chat-bubble reply">Harika! Özel mesajlar ve sunucular çok hızlı çalışıyor ⚡</div>
+        </div>
+
+        <!-- Tanıtım Özellikleri -->
+        <div class="features-section">
+            <div class="section-title">Neden Rockly?</div>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3>💬 Özel Sohbetler</h3>
+                    <p>Birebir mesajlaşma ile arkadaşlarınızla anında bağlantı kurun, güvenli şekilde sohbet edin.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🌐 Sunucu Sohbetleri</h3>
+                    <p>Kendi topluluğunuzu veya sunucunuzu oluşturun, oda kanallarında arkadaşlarınızla bir araya gelin.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>✨ Kullanımı Tamamen Ücretsiz</h3>
+                    <p>Rockly'nin genel kullanımı ve temel sohbet olanakları tamamen ücretsizdir. Kısıtlama olmadan kullanın.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚀 Hızlı ve Hafif</h3>
+                    <p>Düşük veri kullanımı ve optimize edilmiş altyapısı sayesinde mesajlarınız anında iletilir.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gizlilik Politikası & İletişim -->
+        <div class="footer-legal" id="privacy">
+            <div class="legal-title">Gizlilik Politikası</div>
+            <div class="legal-text">
+                Rockly uygulaması olarak kullanıcılarımızın veri güvenliğine önem veriyoruz. Uygulamamıza kayıt olduğunuzda veya Google ile giriş yaptığınızda; profil oluşturma ve oturum doğrulama amacıyla temel bilgileriniz (e-posta, profil ismi) işlenmektedir.
+            </div>
+            <div class="legal-text">
+                Verileriniz kesinlikle üçüncü taraf kurumlarla izinsiz paylaşılmaz. Tüm veriler Google / Firebase altyapısı üzerinde güvenle muhafaza edilir.
+            </div>
+
+            <div class="contact-box">
+                <b>E-posta İletişim & Destek:</b> <a href="mailto:rockkeyking52@gmail.com">rockkeyking52@gmail.com</a>
+            </div>
+        </div>
     </div>
 
+    <!-- Tema Değiştirme Scripti -->
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtnText = document.getElementById('themeText');
+            const themeIcon = document.getElementById('themeIcon');
+
+            body.classList.toggle('light-mode');
+
+            if (body.classList.contains('light-mode')) {
+                themeIcon.textContent = '☀️';
+                themeBtnText.textContent = 'Koyu Mod';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeBtnText.textContent = 'Açık Mod';
+            }
+        }
+    </script>
 </body>
 </html>
